@@ -45,6 +45,16 @@ def despedida(request):
     return HttpResponse("Adios")
 
 
+def curso(request):
+    fechaActual = datetime.datetime.now()
+    return render(request, "curso.html", {fecha: fechaActual})
+
+
+def cursoB(request):
+    fechaActual = datetime.datetime.now()
+    return render(request, "cursob.html", {fecha: fechaActual})
+
+
 def fecha(request):
     fechaActual = datetime.datetime.now()
     documento = "<html><body><h3>%s</h3></body></html>" % fechaActual

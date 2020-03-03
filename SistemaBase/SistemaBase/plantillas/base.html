@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>
+      {% block title %}
+      {% endblock%}
+    </title>
+  </head>
+  <body>
+    {% include "superior/barra.html" %}
+    <h2 style="text-align: center;">Sistema base</h2>
+    <h3>le Bagre</h3>
+    {% block content %}
+    {% endblock %}
+    <p style="text-align: center;">Gracias por su visita</p>
+  </body>
+<html>
