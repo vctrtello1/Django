@@ -1,0 +1,31 @@
+<html>
+  <body>
+    {% include "barra.html" %}
+    {% if nombrePersona == 'victor hugo' %}
+      <p>Bienvenido</p>
+    {% else %}
+      <p>Denegado</p>
+    {% endif %}
+    <h3>Hola {{nombrePersona.upper}} {{apellidoPersona.upper}}</h3>
+    <br>
+    <h3>Hola {{nombrePersona|first|upper}}</h3>
+    <br>
+    <h3>{{fechaActual.day}}</h3>
+    <br>
+    <h3>{{persona.nombre}}</h3>
+    <br>
+    <h3>{{temas.1}}</h3>
+    <br>
+    <h3>
+      <ul>
+        {% if temas %}
+          {% for tema in temas %}
+            <li>{{tema}}</li>
+          {% endfor %}
+        {% else %}
+        <p>No hay elementos que mostrar</p>
+        {% endif %}
+     </ul>
+    </h3>
+  </body>
+</html>
