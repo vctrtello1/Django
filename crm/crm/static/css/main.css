@@ -1,0 +1,12 @@
+body{
+  background-color: #4cb4c7;
+}
+.card .total-orders{
+  background-color: #4cb4c7;
+}
+.card .orders-pending{
+background-color: #7abecc;
+}
+.card .orders-pending{
+background-color: #7CD1C0;
+}
