@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .models import Costumer, Products, Order
-from .forms import OrderForm, CreateUserForm
+from .forms import OrderForm, CreateUserForm, CostumerForm
 from .filters import OrderFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
 # Create your views here.
@@ -21,6 +21,10 @@ def registerPage(request):
             username = form.cleaned_data.get('username')
             group = Group.objects.get(name='costumer')
             user.groups.add(group)
+            Costumer.objects.create(
+                user=user,
+                name=user.username,
+            )
             messages.success(request, 'account was created for ' + username)
             return redirect('login')
     context = {'form': form}
@@ -64,9 +68,31 @@ def home(request):
     return render(request, 'accounts/dashboard.html', context)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['costumer'])
 def userPage(request):
-    context = {}
+    orders = request.user.costumer.order_set.all()
+    total_orders = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+    context = {
+        'orders': orders, 'total_orders': total_orders,
+        'delivered': delivered, 'pending': pending
+    }
     return render(request, 'accounts/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['costumer'])
+def accountSettings(request):
+    costumer = request.user.costumer
+    form = CostumerForm(instance=costumer)
+    if request.method == 'POST':
+        form = CostumerForm(request.POST, request.FILES, instance=costumer)
+        if form.is_valid:
+            form.save()
+    context = {'form': form}
+    return render(request, 'accounts/account_settings.html', context)
 
 
 @login_required(login_url='login')
