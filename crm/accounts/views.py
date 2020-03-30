@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
 from .models import Costumer, Products, Order
 from .forms import OrderForm, CreateUserForm, CostumerForm
 from .filters import OrderFilter
@@ -28,7 +28,7 @@ def registerPage(request):
             messages.success(request, 'account was created for ' + username)
             return redirect('login')
     context = {'form': form}
-    return render(request, 'accounts/register.html', context)
+    return render(request, 'accounts/dashboard.html', context)
 
 
 @unauthenticated_user
