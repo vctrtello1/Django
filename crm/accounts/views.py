@@ -3,7 +3,6 @@ from django.forms import inlineformset_factory
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
 from .models import Costumer, Products, Order
 from .forms import OrderForm, CreateUserForm, CostumerForm
 from .filters import OrderFilter
@@ -19,12 +18,6 @@ def registerPage(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            group = Group.objects.get(name='costumer')
-            user.groups.add(group)
-            Costumer.objects.create(
-                user=user,
-                name=user.username,
-            )
             messages.success(request, 'account was created for ' + username)
             return redirect('login')
     context = {'form': form}
