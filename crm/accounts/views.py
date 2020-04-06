@@ -19,17 +19,16 @@ def registerPage(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            group = Group.objects.get(name='costumer')
+            group = Group.objects.get(name='customer')
             user.groups.add(group)
-            Costumer.objects.create(
+            Customer.objects.create(
                 user=user,
                 name=user.username,
-            )
-            messages.success(request, 'account was created for ' + username)
+                )
+            messages.success(request, 'Account was created for ' + username
             return redirect('login')
-    context = {'form': form}
-    return render(request, 'accounts/dashboard.html', context)
-
+        context = {'form':form}
+    return render(request, 'accounts/register.html', context)
 
 @unauthenticated_user
 def loginPage(request):
